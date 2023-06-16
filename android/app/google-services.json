@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "918081502081",
+    "project_id": "cre-ad",
+    "storage_bucket": "cre-ad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:918081502081:android:645bc58f310cd3ae740680",
+        "android_client_info": {
+          "package_name": "com.example.creator_connect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "918081502081-ua03umlotkf5ig6po49rolcuco5t3bh1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0gyLXO7Ipi1f8fVGSBRE3XsWShDdiamk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "918081502081-ua03umlotkf5ig6po49rolcuco5t3bh1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
