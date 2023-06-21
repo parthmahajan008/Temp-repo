@@ -1,15 +1,15 @@
 import 'package:creator_connect/common/pages/loading.dart';
-import 'package:creator_connect/features/auth/screens/auth_screen.dart';
-import 'package:creator_connect/features/splash_user_selection/screens/splash_screen.dart';
+
+import 'package:creator_connect/features/auth/screens/signIn/screens/signin_screen.dart';
+import 'package:creator_connect/features/auth/screens/signup/screens/choose_login_signup_screen.dart';
+import 'package:creator_connect/features/auth/screens/signup/screens/signup_screen.dart';
+import 'package:creator_connect/features/auth/screens/signup/screens/welcome_advantages.dart';
+import 'package:creator_connect/features/home/screens/home.dart';
+import 'package:creator_connect/features/user_type/screens/user_type_selection.dart';
 import 'package:flutter/material.dart';
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
   switch (routeSettings.name) {
-    case AuthScreen.routeName:
-      return MaterialPageRoute(
-        settings: routeSettings,
-        builder: (_) => const AuthScreen(),
-      );
     case LoadingAnimation.routeName:
       return MaterialPageRoute(
         settings: routeSettings,
@@ -20,7 +20,31 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         settings: routeSettings,
         builder: (_) => const SplashScreen(),
       );
-
+    case HomeScreenBusiness.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const HomeScreenBusiness(),
+      );
+    case SignUpScreen.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const SignUpScreen(),
+      );
+    case SignInScreen.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => SignInScreen(),
+      );
+    case LoginSignupScreen.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const LoginSignupScreen(),
+      );
+    case WelcomeAdvantages.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const WelcomeAdvantages(),
+      );
     default:
       return MaterialPageRoute(
         builder: (_) => const Scaffold(

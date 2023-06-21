@@ -1,38 +1,38 @@
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
+  const CustomTextField({
+    Key? key,
+    required this.controller,
+    required this.hintText,
+  }) : super(key: key);
+
   final TextEditingController controller;
   final String hintText;
-  final int maxLines;
-  const CustomTextField(
-      {super.key,
-      required this.controller,
-      required this.hintText,
-      this.maxLines = 1});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      keyboardType: TextInputType.emailAddress,
       controller: controller,
-      maxLines: maxLines,
       decoration: InputDecoration(
-        contentPadding: const EdgeInsets.all(15),
-        hintText: hintText,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Colors.black38),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20.0),
+          borderSide: const BorderSide(
+            color: Colors.grey,
+            width: 2.0,
+          ),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Colors.black38),
+          borderRadius: BorderRadius.circular(20.0),
+          borderSide: const BorderSide(
+            color: Colors.grey,
+          ),
         ),
+        fillColor: Colors.white,
+        filled: true,
+        hintText: hintText,
       ),
-      validator: (val) {
-        if (val == null || val.isEmpty) {
-          return 'Enter your hintText';
-        }
-        return null;
-      },
     );
   }
 }
