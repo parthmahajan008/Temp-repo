@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField({
-    Key? key,
-    required this.controller,
-    required this.hintText,
-  }) : super(key: key);
-
+  const CustomTextField(
+      {Key? key,
+      required this.controller,
+      required this.hintText,
+      this.validator})
+      : super(key: key);
+  final String? Function(String?)? validator;
   final TextEditingController controller;
   final String hintText;
 
@@ -15,6 +16,13 @@ class CustomTextField extends StatelessWidget {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
       controller: controller,
+      validator: validator ??
+          (value) {
+            if (value!.isEmpty) {
+              return 'Please enter some text';
+            }
+            return null;
+          },
       decoration: InputDecoration(
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20.0),

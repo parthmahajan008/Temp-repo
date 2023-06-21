@@ -4,6 +4,7 @@ import 'package:creator_connect/features/auth/services/auth%20bloc/auth_bloc.dar
 import 'package:creator_connect/features/auth/services/auth%20bloc/auth_event.dart';
 import 'package:creator_connect/features/auth/services/auth%20bloc/auth_state.dart';
 import 'package:creator_connect/features/home/screens/home.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -80,7 +81,7 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 }
 
-class UnauthenticatedWidget extends StatelessWidget {
+class UnauthenticatedWidget extends StatefulWidget {
   const UnauthenticatedWidget({
     super.key,
     required this.size,
@@ -94,12 +95,25 @@ class UnauthenticatedWidget extends StatelessWidget {
   final TextEditingController emailcontroller;
   final TextEditingController passwordController;
 
+  @override
+  State<UnauthenticatedWidget> createState() => _UnauthenticatedWidgetState();
+}
+
+class _UnauthenticatedWidgetState extends State<UnauthenticatedWidget> {
+  bool _passwordVisible = false;
   void _authenticateWithEmailAndPassword(context) {
-    if (_formKey.currentState!.validate()) {
+    if (widget._formKey.currentState!.validate()) {
       BlocProvider.of<AuthBloc>(context).add(
-        SignInRequested(emailcontroller.text, passwordController.text),
+        SignInRequested(
+            widget.emailcontroller.text, widget.passwordController.text),
       );
     }
+  }
+
+  @override
+  void initState() {
+    _passwordVisible = false;
+    super.initState();
   }
 
   @override
@@ -123,15 +137,20 @@ class UnauthenticatedWidget extends StatelessWidget {
               style: TextStyle(fontSize: 18, color: Colors.black45),
             ),
             SizedBox(
-              height: size.height * 0.03,
+              height: widget.size.height * 0.03,
             ),
             Form(
-              key: _formKey,
+              key: widget._formKey,
               child: Column(
                 children: [
                   TextFormField(
                     keyboardType: TextInputType.emailAddress,
-                    controller: emailcontroller,
+                    controller: widget.emailcontroller,
+                    validator: (value) {
+                      return value != null && !EmailValidator.validate(value)
+                          ? 'Enter a valid email'
+                          : null;
+                    },
                     decoration: InputDecoration(
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0),
@@ -148,16 +167,37 @@ class UnauthenticatedWidget extends StatelessWidget {
                       ),
                       fillColor: Colors.white,
                       filled: true,
-                      hintText: "Email",
+                      hintText: "Enter your Email here...",
                     ),
                   ),
                   SizedBox(
-                    height: size.height * 0.02,
+                    height: widget.size.height * 0.02,
                   ),
                   TextFormField(
                     keyboardType: TextInputType.visiblePassword,
-                    controller: passwordController,
+                    obscureText: !_passwordVisible,
+                    validator: (value) {
+                      return value != null && value.length < 6
+                          ? "Enter min. 6 characters"
+                          : null;
+                    },
+                    controller: widget.passwordController,
                     decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: Colors.grey,
+                        ),
+                        onPressed: () {
+                          setState(
+                            () {
+                              _passwordVisible = !_passwordVisible;
+                            },
+                          );
+                        },
+                      ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0),
                         borderSide: const BorderSide(
@@ -173,11 +213,11 @@ class UnauthenticatedWidget extends StatelessWidget {
                       ),
                       fillColor: Colors.white,
                       filled: true,
-                      hintText: "Email",
+                      hintText: "Enter Password Here...",
                     ),
                   ),
                   SizedBox(
-                    height: size.height * 0.01,
+                    height: widget.size.height * 0.01,
                   ),
                 ],
               ),
@@ -197,7 +237,7 @@ class UnauthenticatedWidget extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: size.height * 0.48,
+              height: widget.size.height * 0.48,
             ),
             CustomButton(
                 text: "Continue",

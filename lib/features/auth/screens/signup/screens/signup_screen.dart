@@ -4,6 +4,7 @@ import 'package:creator_connect/features/auth/screens/signIn/screens/signin_scre
 import 'package:creator_connect/features/auth/services/auth%20bloc/auth_bloc.dart';
 import 'package:creator_connect/features/auth/services/auth%20bloc/auth_event.dart';
 import 'package:creator_connect/features/home/screens/home.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 
 import 'package:creator_connect/constants/globalvariables.dart';
@@ -22,6 +23,7 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   bool isChecked = true;
+  bool _passwordVisible = false;
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController firstNamecontroller = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
@@ -160,13 +162,58 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         CustomTextField(
                           controller: emailcontroller,
                           hintText: "Email",
+                          validator: (value) {
+                            return value != null &&
+                                    !EmailValidator.validate(value)
+                                ? 'Enter a valid email'
+                                : null;
+                          },
                         ),
                         SizedBox(
                           height: size.height * 0.02,
                         ),
-                        CustomTextField(
+                        TextFormField(
+                          keyboardType: TextInputType.visiblePassword,
+                          obscureText: !_passwordVisible,
                           controller: passwordController,
-                          hintText: "Password",
+                          validator: (value) {
+                            return value != null && value.length < 6
+                                ? "Enter min. 6 characters"
+                                : null;
+                          },
+                          decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _passwordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: Colors.grey,
+                              ),
+                              onPressed: () {
+                                setState(
+                                  () {
+                                    _passwordVisible = !_passwordVisible;
+                                  },
+                                );
+                              },
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              borderSide: const BorderSide(
+                                color: Colors.grey,
+                                width: 2.0,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              borderSide: const BorderSide(
+                                color: Colors.grey,
+                              ),
+                            ),
+                            fillColor: Colors.white,
+                            filled: true,
+                            hintText: "Enter Password Here...",
+                          ),
                         ),
                         SizedBox(
                           height: size.height * 0.02,
@@ -216,7 +263,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         text: "Continue",
                         onTap: () {
                           _createAccountWithEmailAndPassword(context);
-                        })
+                        }),
+                    SizedBox(
+                      height: size.height * 0.07,
+                    ),
                   ],
                 ),
               ),
