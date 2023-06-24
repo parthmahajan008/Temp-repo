@@ -98,13 +98,13 @@ class AdvantageWithIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 10.0),
+      padding: const EdgeInsets.only(right: 5.0, left: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Icon(
             icon,
-            size: 40,
+            size: 35,
           ),
           Padding(
             padding: const EdgeInsets.only(left: 20.0),
@@ -120,15 +120,16 @@ class AdvantageWithIcon extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width * 0.8,
+                  width: MediaQuery.of(context).size.width * 0.73,
                   child: Text(
                     subtext,
                     overflow: TextOverflow.ellipsis,
-                    // maxLines: 2,
+                    maxLines: 2,
                     style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black54),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black54,
+                    ),
                   ),
                 ),
               ],
