@@ -18,6 +18,12 @@ class ChatInitial extends ChatState {}
 
 class ChatListLoadingState extends ChatState {}
 
-class ChatListLoadedState extends ChatState {}
+class ChatListLoadedState extends ChatState {
+  final List<Chat> chats;
+
+  const ChatListLoadedState({
+    required this.chats
+  });
+}
 
 class ChatListErrorState extends ChatState {}

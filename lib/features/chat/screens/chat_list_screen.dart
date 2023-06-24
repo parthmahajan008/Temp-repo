@@ -2,7 +2,7 @@ import 'package:creator_connect/constants/globalvariables.dart';
 import 'package:creator_connect/features/chat/widgets/chat_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/chat_bloc.dart';
+import '../services/bloc/chat_bloc.dart';
 
 class ChatListScreen extends StatefulWidget {
   const ChatListScreen({super.key});
@@ -22,7 +22,6 @@ class _ChatListScreenState extends State<ChatListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final chats = ["HI", "YO"] + ["HI", "YO"] + ["HI", "YO"] + ["HI", "YO"];
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -46,7 +45,8 @@ class _ChatListScreenState extends State<ChatListScreen> {
                 ),
               );
             case ChatListLoadedState:
-              return ChatList(chats: chats);
+            var successState = state as ChatListLoadedState;
+              return ChatList(chats: successState.chats);
             case ChatListErrorState:
               return const Center(
                 child: Text("Error Occured"),

@@ -4,7 +4,7 @@ import 'package:creator_connect/features/auth/screens/signIn/screens/signin_scre
 import 'package:creator_connect/features/auth/screens/signup/screens/choose_login_signup_screen.dart';
 import 'package:creator_connect/features/auth/screens/signup/screens/signup_screen.dart';
 import 'package:creator_connect/features/auth/screens/signup/screens/welcome_advantages.dart';
-import 'package:creator_connect/features/chat/widgets/chat_screen.dart';
+import 'package:creator_connect/features/chat/screens/chat_screen.dart';
 import 'package:creator_connect/features/home/screens/collaboration_subpage.dart';
 import 'package:creator_connect/features/home/screens/home.dart';
 import 'package:creator_connect/features/user_type/screens/user_type_selection.dart';
