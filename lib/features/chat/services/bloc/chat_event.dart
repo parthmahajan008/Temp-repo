@@ -8,3 +8,13 @@ abstract class ChatEvent extends Equatable {
 }
 
 class LoadChatList extends ChatEvent {}
+
+class AddMessage extends ChatEvent {
+  final String receiverUserId;
+  final String message;
+
+  const AddMessage({
+    required this.message,
+    required this.receiverUserId,
+  });
+}

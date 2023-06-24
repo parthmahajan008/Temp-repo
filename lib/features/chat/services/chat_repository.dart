@@ -1,13 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import '../../../common/services/firebase_service.dart';
+import 'package:creator_connect/models/message.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../../../models/chat.dart';
 
+final chatRepository = ChatRepository(
+  auth: FirebaseAuth.instance,
+  firestore: FirebaseFirestore.instance,
+);
+
 class ChatRepository {
-  static Stream<List<Chat>> getChats() {
-    return FirebaseService.firestore
+  final FirebaseAuth auth;
+  final FirebaseFirestore firestore;
+
+  ChatRepository({
+    required this.auth,
+    required this.firestore,
+  });
+
+  Stream<List<Chat>> getChats() {
+    return firestore
         .collection('users')
-        .doc(FirebaseService.auth.currentUser!.uid)
+        .doc(auth.currentUser!.uid)
         .collection('chats')
         .orderBy('timeSent', descending: true)
         .snapshots()
@@ -15,7 +28,7 @@ class ChatRepository {
       List<String> userIds = event.docs
           .map((chatDoc) => chatDoc.data()['userId'] as String)
           .toList();
-      var userSnapshots = await FirebaseService.firestore
+      var userSnapshots = await firestore
           .collection('users')
           .where(FieldPath.documentId, whereIn: userIds)
           .get();
@@ -30,7 +43,6 @@ class ChatRepository {
 
       List<Chat> chats = event.docs.map((chatDoc) {
         var chatData = chatDoc.data();
-        String id = chatData['id'];
         String lastMessage = chatData['lastMessage'];
         Timestamp timeSent = chatData['timeSent'];
         String userId = chatData['userId'];
@@ -39,7 +51,6 @@ class ChatRepository {
         String imageUrl = userMap[userId]?['imageUrl'];
 
         return Chat(
-          id: id,
           userId: userId,
           name: name,
           imageUrl: imageUrl,
@@ -50,5 +61,86 @@ class ChatRepository {
 
       return chats;
     });
+  }
+
+  void addMessage({
+    required String receiverUserId,
+    required String message,
+  }) async {
+    try {
+      Timestamp timeSent = Timestamp.now();
+      _saveDataToChatSubcollection(receiverUserId, timeSent, message);
+      _saveDataToMessageSubcollection(receiverUserId, timeSent, message);
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  void _saveDataToChatSubcollection(
+      String receiverUserId, Timestamp timeSent, String message) async {
+    // save in current user's chats subcollection
+    await firestore
+        .collection('users')
+        .doc(auth.currentUser!.uid)
+        .collection('chats')
+        .doc(receiverUserId)
+        .set({
+      'userId': receiverUserId,
+      'lastMessage': message,
+      'timeSent': timeSent
+    });
+
+    // save in receiver user's chat subcollection
+    await firestore
+        .collection('users')
+        .doc(receiverUserId)
+        .collection('chats')
+        .doc(auth.currentUser!.uid)
+        .set({
+      'userId': auth.currentUser!.uid,
+      'lastMessage': message,
+      'timeSent': timeSent
+    });
+  }
+
+  void _saveDataToMessageSubcollection(
+      String receiverUserId, Timestamp timeSent, String message) async {
+    // save in current user's messages subcollection
+    var senderDocRef = firestore
+        .collection('users')
+        .doc(auth.currentUser!.uid)
+        .collection('chats')
+        .doc(receiverUserId)
+        .collection('messages')
+        .doc();
+
+    final senderMessage = Message(
+        id: senderDocRef.id,
+        senderId: auth.currentUser!.uid,
+        receiverId: receiverUserId,
+        text: message,
+        timeSent: timeSent,
+        isSeen: true);
+
+    await senderDocRef.set(senderMessage.toMap());
+
+    // save in receiver user's messages subcollection
+    var receiverDocRef = firestore
+        .collection('users')
+        .doc(receiverUserId)
+        .collection('chats')
+        .doc(auth.currentUser!.uid)
+        .collection('messages')
+        .doc();
+
+    final receiverMessage = Message(
+        id: receiverDocRef.id,
+        senderId: receiverUserId,
+        receiverId: auth.currentUser!.uid,
+        text: message,
+        timeSent: timeSent,
+        isSeen: false);
+
+    await receiverDocRef.set(receiverMessage.toMap());
   }
 }

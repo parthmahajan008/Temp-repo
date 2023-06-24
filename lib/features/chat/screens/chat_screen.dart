@@ -1,8 +1,8 @@
 import 'package:creator_connect/constants/globalvariables.dart';
-import 'package:creator_connect/features/chat/widgets/message.dart';
+import 'package:creator_connect/features/chat/widgets/chat_bubble.dart';
 import 'package:flutter/material.dart';
 import '../../../models/chat.dart';
-import '../widgets/message_text_field.dart';
+import '../widgets/bottom_text_field.dart';
 
 class ChatScreen extends StatefulWidget {
   static const String routeName = "/chat-screen";
@@ -43,23 +43,23 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
         centerTitle: true,
       ),
-      body: const Padding(
-        padding: EdgeInsets.all(10.0),
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
+            const Expanded(
               child: Column(
                 children: [
-                  Message(userId: "1"),
-                  Message(userId: "KQ8xN0Zwt8eeghy6UBD57G3ZuQ82"),
-                  Message(userId: "1"),
-                  Message(userId: "1"),
-                  Message(userId: "KQ8xN0Zwt8eeghy6UBD57G3ZuQ82"),
+                  ChatBubble(userId: "1"),
+                  ChatBubble(userId: "KQ8xN0Zwt8eeghy6UBD57G3ZuQ82"),
+                  ChatBubble(userId: "1"),
+                  ChatBubble(userId: "1"),
+                  ChatBubble(userId: "KQ8xN0Zwt8eeghy6UBD57G3ZuQ82"),
                 ],
               ),
             ),
-            MessageTextField()
+            BottomTextField(receiverUserId: chat.userId)
           ],
         ),
       ),
