@@ -14,9 +14,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   FutureOr<void> loadChatList(LoadChatList event, Emitter<ChatState> emit) async {
     try {
-    emit(ChatListLoadingState());
-    List<Chat> chats = await ChatRepository.getChats();
-    emit(ChatListLoadedState(chats: chats));
+    Stream<List<Chat>> chatListStream = ChatRepository.getChats();
+    emit(ChatListLoadedState(chatListStream: chatListStream));
     } catch(e) {
       emit(ChatListErrorState());
       throw Exception(e.toString());

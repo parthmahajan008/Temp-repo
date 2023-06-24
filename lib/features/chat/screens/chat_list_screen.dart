@@ -2,6 +2,7 @@ import 'package:creator_connect/constants/globalvariables.dart';
 import 'package:creator_connect/features/chat/widgets/chat_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../models/chat.dart';
 import '../services/bloc/chat_bloc.dart';
 
 class ChatListScreen extends StatefulWidget {
@@ -31,22 +32,25 @@ class _ChatListScreenState extends State<ChatListScreen> {
         centerTitle: true,
         backgroundColor: GlobalVariables.backgroundColor,
       ),
-      body: BlocConsumer<ChatBloc, ChatState>(
+      body: BlocBuilder<ChatBloc, ChatState>(
         bloc: chatBloc,
-        listenWhen: (previous, current) => current is ChatActionState,
-        buildWhen: (previous, current) => current is! ChatActionState,
-        listener: (context, state) {},
         builder: (context, state) {
           switch (state.runtimeType) {
-            case ChatListLoadingState:
-              return const Center(
-                child: CircularProgressIndicator.adaptive(
-                  backgroundColor: Colors.black,
-                ),
-              );
             case ChatListLoadedState:
-            var successState = state as ChatListLoadedState;
-              return ChatList(chats: successState.chats);
+              var chatState = state as ChatListLoadedState;
+              return StreamBuilder<List<Chat>>(
+                  stream: chatState.chatListStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ChatList(chats: snapshot.data!);
+                    } else {
+                      return const Center(
+                        child: CircularProgressIndicator.adaptive(
+                          backgroundColor: Colors.black,
+                        ),
+                      );
+                    }
+                  });
             case ChatListErrorState:
               return const Center(
                 child: Text("Error Occured"),

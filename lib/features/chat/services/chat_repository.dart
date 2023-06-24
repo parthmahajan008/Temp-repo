@@ -4,29 +4,39 @@ import '../../../common/services/firebase_service.dart';
 import '../../../models/chat.dart';
 
 class ChatRepository {
-  static Future<List<Chat>> getChats() async {
-    try {
-      var chatsData = await FirebaseService.firestore
+  static Stream<List<Chat>> getChats() {
+    return FirebaseService.firestore
+        .collection('users')
+        .doc(FirebaseService.auth.currentUser!.uid)
+        .collection('chats')
+        .orderBy('timeSent', descending: true)
+        .snapshots()
+        .asyncMap<List<Chat>>((event) async {
+      List<String> userIds = event.docs
+          .map((chatDoc) => chatDoc.data()['userId'] as String)
+          .toList();
+      var userSnapshots = await FirebaseService.firestore
           .collection('users')
-          .doc(FirebaseService.auth.currentUser!.uid)
-          .collection('chats')
-          .orderBy('timeSent', descending: true)
+          .where(FieldPath.documentId, whereIn: userIds)
           .get();
 
-      List<Future<Chat>> chats = chatsData.docs.map((chatDoc) async {
+      Map<String, Map<String, dynamic>> userMap = {};
+      for (var userDoc in userSnapshots.docs) {
+        userMap[userDoc.id] = {
+          'name': userDoc.get('name'),
+          'imageUrl': userDoc.get('imageUrl')
+        };
+      }
+
+      List<Chat> chats = event.docs.map((chatDoc) {
         var chatData = chatDoc.data();
-        String id = chatData["id"];
-        String lastMessage = chatData["lastMessage"];
-        Timestamp timeSent = chatData["timeSent"];
+        String id = chatData['id'];
+        String lastMessage = chatData['lastMessage'];
+        Timestamp timeSent = chatData['timeSent'];
         String userId = chatData['userId'];
 
-        var userData = await FirebaseService.firestore
-            .collection('users')
-            .doc(userId)
-            .get();
-
-        String name = userData.get('name');
-        String imageUrl = userData.get('imageUrl');
+        String name = userMap[userId]?['name'];
+        String imageUrl = userMap[userId]?['imageUrl'];
 
         return Chat(
           id: id,
@@ -38,9 +48,7 @@ class ChatRepository {
         );
       }).toList();
 
-      return Future.wait(chats);
-    } catch (e) {
-      throw Exception(e);
-    }
+      return chats;
+    });
   }
 }

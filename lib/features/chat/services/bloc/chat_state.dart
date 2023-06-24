@@ -19,11 +19,14 @@ class ChatInitial extends ChatState {}
 class ChatListLoadingState extends ChatState {}
 
 class ChatListLoadedState extends ChatState {
-  final List<Chat> chats;
+  final Stream<List<Chat>> chatListStream;
 
   const ChatListLoadedState({
-    required this.chats
+    required this.chatListStream
   });
+
+    @override
+  List<Object> get props => [chatListStream];
 }
 
 class ChatListErrorState extends ChatState {}
