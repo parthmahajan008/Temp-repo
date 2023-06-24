@@ -68,7 +68,7 @@ class DefaultFirebaseOptions {
     projectId: 'cre-ad',
     storageBucket: 'cre-ad.appspot.com',
     iosClientId: '918081502081-hrncg82hmphp3huahlo6grolegrr5p05.apps.googleusercontent.com',
-    iosBundleId: 'com.example.creatorConnect',
+    iosBundleId: 'com.prosight.creatorConnect',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -78,6 +78,6 @@ class DefaultFirebaseOptions {
     projectId: 'cre-ad',
     storageBucket: 'cre-ad.appspot.com',
     iosClientId: '918081502081-d9pbrjkd4iihg21l9djk3rcbnrpc9siu.apps.googleusercontent.com',
-    iosBundleId: 'com.example.creatorConnect.RunnerTests',
+    iosBundleId: 'com.prosight.creatorConnect.RunnerTests',
   );
 }

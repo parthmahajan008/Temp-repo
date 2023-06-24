@@ -1,4 +1,4 @@
-package com.example.creator_connect
+package com.prosight.creator_connect
 
 import io.flutter.embedding.android.FlutterActivity
 
