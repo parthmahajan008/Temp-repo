@@ -4,12 +4,13 @@ import '../../../constants/globalvariables.dart';
 
 class ChatBubble extends StatelessWidget {
   final String userId;
-  const ChatBubble({super.key, required this.userId});
+  final String text;
+  const ChatBubble({super.key, required this.userId, required this.text});
 
   @override
   Widget build(BuildContext context) {
     final sentByMe = chatRepository.auth.currentUser!.uid == userId;
-
+    
     return Align(
       alignment: sentByMe ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
@@ -23,7 +24,7 @@ class ChatBubble extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(10)),
         ),
         child: Text(
-          "Hi! how are you?",
+          text,
           style: TextStyle(
               fontSize: 18, color: sentByMe ? Colors.white : Colors.black),
         ),

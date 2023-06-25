@@ -28,6 +28,9 @@ class ChatRepository {
       List<String> userIds = event.docs
           .map((chatDoc) => chatDoc.data()['userId'] as String)
           .toList();
+
+      if (userIds.isEmpty) return [];
+
       var userSnapshots = await firestore
           .collection('users')
           .where(FieldPath.documentId, whereIn: userIds)
@@ -135,12 +138,30 @@ class ChatRepository {
 
     final receiverMessage = Message(
         id: receiverDocRef.id,
-        senderId: receiverUserId,
-        receiverId: auth.currentUser!.uid,
+        senderId: auth.currentUser!.uid,
+        receiverId: receiverUserId,
         text: message,
         timeSent: timeSent,
         isSeen: false);
 
     await receiverDocRef.set(receiverMessage.toMap());
+  }
+
+  Stream<List<Message>> getMessages({required String userId}) {
+    return firestore
+        .collection('users')
+        .doc(auth.currentUser!.uid)
+        .collection('chats')
+        .doc(userId)
+        .collection('messages')
+        .orderBy('timeSent')
+        .snapshots()
+        .asyncMap<List<Message>>((event) {
+      List<Message> messages = event.docs
+          .map((messageDoc) => Message.fromMap(messageDoc.data()))
+          .toList();
+
+      return messages;
+    });
   }
 }

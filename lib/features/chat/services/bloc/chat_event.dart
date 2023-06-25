@@ -18,3 +18,9 @@ class AddMessage extends ChatEvent {
     required this.receiverUserId,
   });
 }
+
+class LoadMessages extends ChatEvent {
+  final String userId;
+  
+  const LoadMessages({required this.userId});
+}

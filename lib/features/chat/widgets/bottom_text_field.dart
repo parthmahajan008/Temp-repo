@@ -21,7 +21,7 @@ class _BottomTextFieldState extends State<BottomTextField> {
 
     chatBloc.add(AddMessage(
       receiverUserId: widget.receiverUserId,
-      message: _textController.text,
+      message: _textController.text.trim(),
     ));
     setState(() => _textController.text = "");
   }
@@ -34,49 +34,52 @@ class _BottomTextFieldState extends State<BottomTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Expanded(
-          child: Form(
-            key: _formKey,
-            child: Scrollbar(
-              child: TextFormField(
-                controller: _textController,
-                keyboardType: TextInputType.multiline,
-                minLines: 1,
-                maxLines: 6,
-                cursorColor: Colors.black,
-                style: const TextStyle(fontSize: 18),
-                decoration: const InputDecoration(
-                  hintText: "Type a message",
-                  filled: true,
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                  isDense: true,
-                  fillColor: GlobalVariables.greyBackgroundCOlor,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                    borderSide: BorderSide.none,
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Expanded(
+            child: Form(
+              key: _formKey,
+              child: Scrollbar(
+                child: TextFormField(
+                  controller: _textController,
+                  keyboardType: TextInputType.multiline,
+                  minLines: 1,
+                  maxLines: 6,
+                  cursorColor: Colors.black,
+                  style: const TextStyle(fontSize: 18),
+                  decoration: const InputDecoration(
+                    hintText: "Type a message",
+                    filled: true,
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                    isDense: true,
+                    fillColor: GlobalVariables.greyBackgroundCOlor,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                      borderSide: BorderSide.none,
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
-        const SizedBox(width: 10),
-        Ink(
-          decoration: const ShapeDecoration(
-            color: Colors.black,
-            shape: CircleBorder(),
+          const SizedBox(width: 10),
+          Ink(
+            decoration: const ShapeDecoration(
+              color: Colors.black,
+              shape: CircleBorder(),
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.send),
+              color: Colors.white,
+              onPressed: addMessage,
+            ),
           ),
-          child: IconButton(
-            icon: const Icon(Icons.send),
-            color: Colors.white,
-            onPressed: addMessage,
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
