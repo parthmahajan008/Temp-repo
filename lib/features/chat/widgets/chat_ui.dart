@@ -1,5 +1,3 @@
-import 'package:creator_connect/constants/globalvariables.dart';
-
 import '../../../models/message.dart';
 import 'package:flutter/material.dart';
 

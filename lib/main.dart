@@ -1,8 +1,6 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:creator_connect/constants/globalvariables.dart';
 import 'package:creator_connect/features/auth/services/auth_repository.dart';
-import 'package:creator_connect/features/chat/screens/chat_list_screen.dart';
-
 import 'package:creator_connect/features/home/screens/home.dart';
 import 'package:creator_connect/features/user_type/screens/user_type_selection.dart';
 import 'package:creator_connect/firebase_options.dart';
@@ -52,8 +50,8 @@ class MyApp extends StatelessWidget {
             builder: (context, snapshot) {
               // If the snapshot has user data, then they're already signed in. So Navigating to the Dashboard.
               if (snapshot.hasData) {
-                return const ChatListScreen();
-                // return HomeScreenBusiness();
+                // return const ChatListScreen();
+                return const HomeScreen();
               }
               // Otherwise, they're not signed in. Show the sign in page.
               return const LandingScreen();

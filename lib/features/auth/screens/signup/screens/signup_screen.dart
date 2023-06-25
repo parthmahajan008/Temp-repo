@@ -3,6 +3,7 @@ import 'package:creator_connect/common/widgets/custom_text_field.dart';
 import 'package:creator_connect/features/auth/screens/signIn/screens/signin_screen.dart';
 import 'package:creator_connect/features/auth/services/auth%20bloc/auth_bloc.dart';
 import 'package:creator_connect/features/auth/services/auth%20bloc/auth_event.dart';
+
 import 'package:creator_connect/features/home/screens/home.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -97,7 +98,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           if (state is Authenticated) {
             // Navigating to the dashboard screen if the user is authenticated
             Navigator.of(context).pushNamedAndRemoveUntil(
-              HomeScreenBusiness.routeName,
+              HomeScreen.routeName,
               (route) => false,
             );
           }

@@ -6,6 +6,7 @@ import 'package:creator_connect/features/auth/screens/signup/screens/signup_scre
 import 'package:creator_connect/features/auth/screens/signup/screens/welcome_advantages.dart';
 import 'package:creator_connect/features/chat/screens/chat_screen.dart';
 import 'package:creator_connect/features/home/screens/collaboration_subpage.dart';
+import 'package:creator_connect/features/home/screens/BusinessHome.dart';
 import 'package:creator_connect/features/home/screens/home.dart';
 import 'package:creator_connect/features/user_type/screens/user_type_selection.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +20,10 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
           return const LoadingAnimation();
         case SplashScreen.routeName:
           return const SplashScreen();
-        case HomeScreenBusiness.routeName:
-          return const HomeScreenBusiness();
+        case BusinessHome.routeName:
+          return const BusinessHome();
+        case HomeScreen.routeName:
+          return const HomeScreen();
         case CollaborationSubPage.routeName:
           return const CollaborationSubPage();
         case SignUpScreen.routeName:

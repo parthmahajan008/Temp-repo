@@ -3,6 +3,7 @@ import 'package:creator_connect/features/auth/screens/signup/screens/choose_logi
 import 'package:creator_connect/features/auth/services/auth%20bloc/auth_bloc.dart';
 import 'package:creator_connect/features/auth/services/auth%20bloc/auth_event.dart';
 import 'package:creator_connect/features/auth/services/auth%20bloc/auth_state.dart';
+
 import 'package:creator_connect/features/home/screens/home.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,7 @@ class _SignInScreenState extends State<SignInScreen> {
           listener: (context, state) {
             if (state is Authenticated) {
               Navigator.of(context).pushNamedAndRemoveUntil(
-                HomeScreenBusiness.routeName,
+                HomeScreen.routeName,
                 (route) => false,
               );
             }
