@@ -49,7 +49,7 @@ class ChatRepository {
         String lastMessage = chatData['lastMessage'];
         Timestamp timeSent = chatData['timeSent'];
         String userId = chatData['userId'];
-
+        String sentById = chatData['sentById'];
         String name = userMap[userId]?['name'];
         String imageUrl = userMap[userId]?['imageUrl'];
 
@@ -57,6 +57,7 @@ class ChatRepository {
           userId: userId,
           name: name,
           imageUrl: imageUrl,
+          sentById: sentById,
           lastMessage: lastMessage,
           timeSent: timeSent,
         );
@@ -90,6 +91,7 @@ class ChatRepository {
         .set({
       'userId': receiverUserId,
       'lastMessage': message,
+      'sentById': auth.currentUser!.uid,
       'timeSent': timeSent
     });
 
@@ -102,6 +104,7 @@ class ChatRepository {
         .set({
       'userId': auth.currentUser!.uid,
       'lastMessage': message,
+      'sentById': auth.currentUser!.uid,
       'timeSent': timeSent
     });
   }

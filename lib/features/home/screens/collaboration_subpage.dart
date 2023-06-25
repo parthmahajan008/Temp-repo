@@ -44,10 +44,17 @@ class _CollaborationSubPageState extends State<CollaborationSubPage> {
           width: double.infinity,
           height: double.infinity,
           decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                  colors: [Colors.white, Colors.grey.shade100])),
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                Colors.white,
+                Colors.white,
+                Colors.blue.withOpacity(0.2),
+                // Colors.white,
+              ],
+            ),
+          ),
         ),
         Container(
           width: double.infinity,
