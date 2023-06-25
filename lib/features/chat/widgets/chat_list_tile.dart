@@ -22,11 +22,10 @@ class ChatListTile extends StatelessWidget {
         style: const TextStyle(fontWeight: FontWeight.bold),
       ),
       subtitle: Text(
-        (chat.sentById == chatRepository.auth.currentUser!.uid
-                ? "You : "
-                : chat.name) +
-            chat.lastMessage,
+        "${chat.sentById == chatRepository.auth.currentUser!.uid ? "You" : chat.name} : ${chat.lastMessage}",
         style: const TextStyle(fontSize: 16),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
       ),
       onTap: () {
         Navigator.of(context)
