@@ -13,7 +13,7 @@ import '../../auth/services/auth bloc/auth_state.dart';
 import '../widgets/collaboration_card.dart';
 
 class BusinessHome extends StatefulWidget {
-  static const String routeName = '/home-screen';
+  static const String routeName = '/business-home-screen';
   const BusinessHome({super.key});
 
   @override
