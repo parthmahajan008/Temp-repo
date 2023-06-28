@@ -48,7 +48,7 @@ class AuthRepository {
     try {
       print('fireabse auth user: ${_firebaseAuth.currentUser}');
       await _firebaseAuth.signOut();
-      print('fireabse post SIGNOUT user: ${_firebaseAuth.currentUser}');
+      print('firebase post SIGNOUT user: ${_firebaseAuth.currentUser}');
     } on FirebaseAuthException catch (e) {
       if (e.code == 'network-request-failed') {
         throw Exception('No internet connection');
