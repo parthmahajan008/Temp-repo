@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -155,16 +154,17 @@ class _SearchScreenState extends State<SearchScreen> {
     },
   ];
 
-  void addToFirebase() async {
+  addToFirebase() async {
     for (var data in _influencers) {
       FirebaseFirestore.instance.collection("Search").add(data);
     }
+    print("all data addes");
   }
 
   @override
   void initState() {
     super.initState();
-    addToFirebase();
+    // addToFirebase();
   }
 
   @override
@@ -188,15 +188,21 @@ class _SearchScreenState extends State<SearchScreen> {
         body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance.collection("Search").snapshots(),
           builder: (context, snapshots) {
+            // print(
+            //   snapshots.data.toString().length,
+            // );
             return (snapshots.connectionState == ConnectionState.waiting)
                 ? const Center(
                     child: CircularProgressIndicator(),
                   )
                 : ListView.builder(
-                    itemCount: snapshots.data!.toString().length,
+                    itemCount: snapshots.data!.docs.length,
                     itemBuilder: (context, index) {
                       var data = snapshots.data!.docs[index].data()
                           as Map<String, dynamic>;
+                      print(data);
+                      print("------------------");
+                      print(snapshots.data!.size);
                       if (searchQuery.isEmpty) {
                         return ListTile(
                           title: Text(data['name']),

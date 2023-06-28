@@ -3,7 +3,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 
 class NavBarHome extends StatelessWidget {
   final void Function(int) ontabChange;
-  NavBarHome({
+  const NavBarHome({
     super.key,
     required this.ontabChange,
   });

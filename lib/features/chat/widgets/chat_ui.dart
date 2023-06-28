@@ -12,7 +12,7 @@ class ChatUI extends StatefulWidget {
 }
 
 class _ChatUIState extends State<ChatUI> {
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
   void _scrollDown() {
     _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
   }

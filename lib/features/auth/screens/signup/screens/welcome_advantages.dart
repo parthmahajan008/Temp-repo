@@ -119,7 +119,7 @@ class AdvantageWithIcon extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width * 0.73,
                   child: Text(
                     subtext,

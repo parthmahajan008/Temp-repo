@@ -18,6 +18,6 @@ class LoadingAnimation extends StatelessWidget {
               LoginSignupScreen.routeName,
             ));
 
-    return LoadingWidget();
+    return const LoadingWidget();
   }
 }
